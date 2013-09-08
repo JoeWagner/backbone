@@ -231,4 +231,21 @@ $(function(){
   // Finally, we kick things off by creating the **App**.
   var App = new AppView;
 
+  // Poll for changes to the Todos collection
+  // In this example everything is saved to local storage, so this doesn't really do anything.
+  // However if we were to save to the server, and a user wanted to access their account with
+  // multiple devises, or share a Todos collection with other users we would need to check for
+  // changes to the collection occationally
+  setInterval(function () {
+    Todos.fetch({
+      // without the keepnew option there is a chance that a user will try to create a todo right
+      // before the server returns the updated version of this collection
+      keepnew: true,
+      success: function () {
+        // If a newly created todo is being saved to the server it was removed by the
+        // call to collection.set that just happened
+      }
+    });
+  }, 15000); // check every 15 seconds
+
 });
